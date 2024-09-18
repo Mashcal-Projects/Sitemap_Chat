@@ -238,7 +238,18 @@ def main():
     questions = questions_df['questions'].tolist()
 
      # Input field for custom questions
-    user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)",key="user_question")
+    # user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)",key="user_question")
+
+    # Input field for custom questions
+    user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
+    
+    # Filter questions based on the user's input for autocomplete
+    if user_question:
+        auto_complete_suggestions = [q for q in questions if user_question.lower() in q.lower()]
+    else:
+        auto_complete_suggestions = []
+
+    
     # Dropdown for predefined questions
     selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
 
