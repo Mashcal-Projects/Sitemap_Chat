@@ -249,16 +249,17 @@ def main():
         auto_complete_suggestions = [q for q in questions if q.lower().startswith(user_question.lower())][:10]  # Limit to top 10 suggestions
     else:
         auto_complete_suggestions = []
+    logging.info(f"auto_complete_suggestions: {auto_complete_suggestions}")
     
     # Display filtered suggestions in a selectbox (scrollable)
-    if auto_complete_suggestions:
-        selected_suggestion = st.selectbox("Suggestions", auto_complete_suggestions)
+    # if auto_complete_suggestions:
+    #     selected_suggestion = st.selectbox("Suggestions", auto_complete_suggestions)
     
-        # Auto-fill the input field with the selected suggestion
-        if selected_suggestion:
-            st.session_state.user_question = selected_suggestion
-    else:
-        selected_suggestion = None
+    #     # Auto-fill the input field with the selected suggestion
+    #     if selected_suggestion:
+    #         st.session_state.user_question = selected_suggestion
+    # else:
+    #     selected_suggestion = None
 
     # Dropdown for predefined questions
     selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
