@@ -249,15 +249,21 @@ def main():
     else:
         auto_complete_suggestions = []
 
-      
-    # Display the filtered suggestions in a scrollable container (selectbox or multiselect)
+
+    # Display filtered suggestions in a selectbox (which has a scrollable list when long)
     if auto_complete_suggestions:
-        selected_suggestion = st.selectbox("Suggestions", auto_complete_suggestions)
+        selected_suggestion = st.selectbox("Suggestions", auto_complete_suggestions, key="selected_suggestion")
+    else:
+        selected_suggestion = None
     
-        # Auto-fill the input field with the selected suggestion
-        if selected_suggestion:
-            st.session_state.user_question = selected_suggestion
-            st.experimental_rerun()  
+    # Auto-fill the input field with the selected suggestion
+    if selected_suggestion:
+        st.session_state.user_question = selected_suggestion
+        st.experimental_rerun()
+
+
+
+    
     # Dropdown for predefined questions
     selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
 
