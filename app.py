@@ -231,10 +231,6 @@ def main():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
-    
-    # questions_df = load_questions('data/knowledge_center.csv')
-    # questions_df = load_questions('data/sitemap_data.csv')
-    # questions = questions_df['questions'].tolist()
 
         # Initialize session state key if it does not exist
     if 'user_question' not in st.session_state:
@@ -246,6 +242,7 @@ def main():
 
     # Input field for custom questions
     user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
+ 
     
     # Filter options that **start with** the user's input
     if user_question:
@@ -255,15 +252,13 @@ def main():
     
     # Display filtered suggestions in a selectbox (scrollable)
     if auto_complete_suggestions:
-        selected_suggestion = st.selectbox("Suggestions", auto_complete_suggestions, key="selected_suggestion")
+        selected_suggestion = st.selectbox("Suggestions", auto_complete_suggestions)
+    
+        # Auto-fill the input field with the selected suggestion
+        if selected_suggestion:
+            st.session_state.user_question = selected_suggestion
     else:
         selected_suggestion = None
-    
-    # Auto-fill the input field with the selected suggestion
-    if selected_suggestion:
-        st.session_state.user_question = selected_suggestion
-        st.experimental_rerun()  
-
 
     # Dropdown for predefined questions
     selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
