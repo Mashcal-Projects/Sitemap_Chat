@@ -1,4 +1,3 @@
-
 import streamlit as st
 import openai
 from PyPDF2 import PdfReader
@@ -234,15 +233,19 @@ def main():
 
     
     # questions_df = load_questions('data/knowledge_center.csv')
+    # questions_df = load_questions('data/sitemap_data.csv')
+    # questions = questions_df['questions'].tolist()
+
+        # Initialize session state key if it does not exist
+    if 'user_question' not in st.session_state:
+        st.session_state.user_question = ""
+    
+    # Load the vector store and questions data
     questions_df = load_questions('data/sitemap_data.csv')
     questions = questions_df['questions'].tolist()
 
-     # Input field for custom questions
-    # user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)",key="user_question")
-
     # Input field for custom questions
     user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
-
     
     # Filter options that **start with** the user's input
     if user_question:
