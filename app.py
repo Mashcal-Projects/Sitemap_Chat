@@ -234,7 +234,7 @@ def main():
     questions = questions_df['questions'].tolist()
 
 
-    categories = questions_df['category']/tolist()
+    categories = questions_df['category'].tolist()
  
     
     # Session state to store selected category and input text
