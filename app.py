@@ -252,7 +252,7 @@ def main():
     
     # Show selected category and enable text input after category selection
     if st.session_state.selected_category:
-        st.write(f"Selected Category: {st.session_state.selected_category}")
+        st.write(f"התחום הנבחר: {st.session_state.selected_category}")
         st.session_state.input_value = st.text_input("הזינ/י שאלתך (חיפוש חופשי)")
     
         if st.session_state.input_value:
