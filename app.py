@@ -232,7 +232,40 @@ def main():
         st.session_state.chat_history = []
 
 
-        # Initialize session state key if it does not exist
+
+    
+
+
+
+    # List of categories (from your knowledge center file)
+    categories = ['Category1', 'Category2', 'Category3', 'Category4', 'Category5', 'Category6']
+    
+    # Session state to store selected category and input text
+    if 'selected_category' not in st.session_state:
+        st.session_state.selected_category = None
+    if 'input_value' not in st.session_state:
+        st.session_state.input_value = ''
+    
+    # Display category buttons
+    st.write("Please select a category:")
+    for category in categories:
+        if st.button(category):
+            st.session_state.selected_category = category
+    
+    # Show selected category and enable text input after category selection
+    if st.session_state.selected_category:
+        st.write(f"Selected Category: {st.session_state.selected_category}")
+        st.session_state.input_value = st.text_input("Enter your question:")
+    
+        if st.session_state.input_value:
+            st.write(f"Your question: {st.session_state.input_value}")
+        
+    
+
+
+    
+
+    # Initialize session state key if it does not exist
     if 'user_question' not in st.session_state:
         st.session_state.user_question = ""
     
