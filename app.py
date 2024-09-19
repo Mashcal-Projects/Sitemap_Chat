@@ -235,8 +235,7 @@ def main():
 
     
 
-
-
+    
     # List of categories (from your knowledge center file)
     categories = ['Category1', 'Category2', 'Category3', 'Category4', 'Category5', 'Category6']
     
@@ -246,10 +245,13 @@ def main():
     if 'input_value' not in st.session_state:
         st.session_state.input_value = ''
     
-    # Display category buttons
-    st.write("Please select a category:")
-    for category in categories:
-        if st.button(category):
+    # Create columns dynamically to fit as many as possible in a row
+    num_categories = len(categories)
+    cols = st.columns(num_categories)  # Create one column per category
+    
+    # Display buttons in each column
+    for i, category in enumerate(categories):
+        if cols[i].button(category):
             st.session_state.selected_category = category
     
     # Show selected category and enable text input after category selection
@@ -259,7 +261,6 @@ def main():
     
         if st.session_state.input_value:
             st.write(f"Your question: {st.session_state.input_value}")
-        
     
 
 
