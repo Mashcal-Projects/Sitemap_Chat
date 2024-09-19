@@ -233,9 +233,6 @@ def main():
     questions_df = load_questions('data/sitemap_data.csv')
     questions = questions_df['questions'].tolist()
 
-    
-
-    
 
     categories = questions_df['category'].unique().tolist()
  
