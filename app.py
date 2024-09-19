@@ -23,9 +23,7 @@ from difflib import get_close_matches
 # Set OpenAI API key from Streamlit secrets
 openai.api_key = st.secrets['OPENAI_API_KEY']
 
-# PDF_FILE_PATH = "data/knowledge_center.pdf"
 PDF_FILE_PATH = "data/sitemap_data.pdf"
-# PDF_FILE_PATH = "data/knowledge_center.pdf"
 
 # Example row from your CSV
 row = {
@@ -236,8 +234,9 @@ def main():
     
 
     
-    # List of categories (from your knowledge center file)
-    categories = ['Category1', 'Category2', 'Category3', 'Category4', 'Category5', 'Category6']
+
+    categories = df['category'].unique().tolist()
+ 
     
     # Session state to store selected category and input text
     if 'selected_category' not in st.session_state:
