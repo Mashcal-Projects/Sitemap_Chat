@@ -240,19 +240,23 @@ def main():
     num_categories = len(categories)
     cols = st.columns(num_categories)  # Create one column per category
     
-    # Display buttons in each column
-    for i, category in enumerate(categories):
-        if cols[i].button(category):
-            st.session_state.selected_category = category
+       # Display a dropdown for selecting a category if categories are loaded correctly
+    if categories:
+        st.session_state.selected_category = st.selectbox(
+            "Choose a category:", categories)
     
-    # Show selected category and enable text input after category selection
-    if st.session_state.selected_category:
-        st.write(f"התחום הנבחר: {st.session_state.selected_category}")
-        st.session_state.input_value = st.text_input("הזינ/י שאלתך (חיפוש חופשי)")
+        # Show input field immediately after a category is selected
+        if st.session_state.selected_category:
+            st.write(f"Selected Category: {st.session_state.selected_category}")
+            
+            # Display the input field now that a category has been selected
+            st.session_state.input_value = st.text_input("Enter your question:")
     
-        if st.session_state.input_value:
-            st.write(f"התחום הנבחר: {st.session_state.input_value}")
-    
+            if st.session_state.input_value:
+                st.write(f"Your question: {st.session_state.input_value}")
+    else:
+        st.error("No categories found.")
+        
 
     # # Initialize session state key if it does not exist
     # if 'user_question' not in st.session_state:
