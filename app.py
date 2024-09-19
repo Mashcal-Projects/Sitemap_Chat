@@ -124,7 +124,7 @@ def generate_response(prompt, diagram_data=None):
         
 def load_db(file_path):
     # Load the questions and diagrams from a CSV file
-    df = pd.read_csv(file_path, encoding='utf-8')
+    df = pd.read_csv(file_path)
     return df
 
 def user_input(user_question, diagram_data=None, tags=None, link=None):
