@@ -253,33 +253,25 @@ def main():
     # Show selected category and enable text input after category selection
     if st.session_state.selected_category:
         st.write(f"Selected Category: {st.session_state.selected_category}")
-        st.session_state.input_value = st.text_input("Enter your question:")
+        st.session_state.input_value = st.text_input("הזינ/י שאלתך (חיפוש חופשי)")
     
         if st.session_state.input_value:
-            st.write(f"Your question: {st.session_state.input_value}")
+            st.write(f"התחום הנבחר: {st.session_state.input_value}")
     
 
+    # # Initialize session state key if it does not exist
+    # if 'user_question' not in st.session_state:
+    #     st.session_state.user_question = ""
 
-    
-
-    # Initialize session state key if it does not exist
-    if 'user_question' not in st.session_state:
-        st.session_state.user_question = ""
-    
-    # # Load the vector store and questions data
-    # questions_df = load_questions('data/sitemap_data.csv')
-    # questions = questions_df['questions'].tolist()
-
-    # Input field for custom questions
-    user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
+    # # Input field for custom questions
+    # user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
  
-    
-    # Filter options that **start with** the user's input
-    if user_question:
-        auto_complete_suggestions = [q for q in questions if q.lower().startswith(user_question.lower())][:10]  # Limit to top 10 suggestions
-    else:
-        auto_complete_suggestions = []
-    logging.info(f"auto_complete_suggestions: {auto_complete_suggestions}")
+    # # Filter options that **start with** the user's input
+    # if user_question:
+    #     auto_complete_suggestions = [q for q in questions if q.lower().startswith(user_question.lower())][:10]  # Limit to top 10 suggestions
+    # else:
+    #     auto_complete_suggestions = []
+    # logging.info(f"auto_complete_suggestions: {auto_complete_suggestions}")
     
     # Display filtered suggestions in a selectbox (scrollable)
     # if auto_complete_suggestions:
@@ -314,24 +306,24 @@ def main():
     #             st.session_state.chat_history.append({'question': selected_question, 'answer': response,'diagram':diagram})
             
     # Process input text
-    if user_question and (user_question != st.session_state.get('last_processed', '')):
-        st.session_state['last_processed'] = user_question  # Track last processed question
-        closest_question = find_closest_question(user_question, questions_df)
+    # if user_question and (user_question != st.session_state.get('last_processed', '')):
+    #     st.session_state['last_processed'] = user_question  # Track last processed question
+    #     closest_question = find_closest_question(user_question, questions_df)
         
-        logging.info(f"closest_question: {closest_question}")
+    #     logging.info(f"closest_question: {closest_question}")
         
-        if closest_question:
-            row = questions_df[questions_df['questions'] == closest_question].iloc[0]
-            tags = row["tags"] if pd.notna(row["tags"]) else ""
-            link = row["links"] if pd.notna(row["links"]) else None
-        else:
-            tags = ""
-            link = None
+    #     if closest_question:
+    #         row = questions_df[questions_df['questions'] == closest_question].iloc[0]
+    #         tags = row["tags"] if pd.notna(row["tags"]) else ""
+    #         link = row["links"] if pd.notna(row["links"]) else None
+    #     else:
+    #         tags = ""
+    #         link = None
 
         
-        response = user_input(user_question, tags=tags, link=link)
-        logging.info(f"response: {response}")
-        st.session_state.chat_history.append({'question': user_question, 'answer': response[0]})
+    #     response = user_input(user_question, tags=tags, link=link)
+    #     logging.info(f"response: {response}")
+    #     st.session_state.chat_history.append({'question': user_question, 'answer': response[0]})
 
         # Display the most recent interaction at the top
     if st.session_state.chat_history:
