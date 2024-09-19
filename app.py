@@ -22,7 +22,6 @@ from difflib import get_close_matches
 
 # Set OpenAI API key from Streamlit secrets
 openai.api_key = st.secrets['OPENAI_API_KEY']
-
 PDF_FILE_PATH = "data/sitemap_data.pdf"
 
 # Example row from your CSV
@@ -42,7 +41,6 @@ logging.basicConfig(
 
 # Test if logging works by adding an initial log message
 logging.info("App started, logging is set up.")
-
 
 def get_pdf_text(pdf_file_path):
     text = ""
@@ -65,7 +63,6 @@ def get_vector_store(text_chunks):
 def reverse_hebrew_text(categories):
     return [cat[::-1] for cat in categories]
 
-    
 def find_closest_question(user_question, questions_df):
     # Use difflib's get_close_matches to find the closest matching question
     questions = questions_df['questions'].tolist()
@@ -73,7 +70,6 @@ def find_closest_question(user_question, questions_df):
     if closest_matches:
         return closest_matches[0]  # Return the closest question
     return None
-    
 
 def generate_response(prompt, diagram_data=None):
     try:
@@ -121,13 +117,12 @@ def generate_response(prompt, diagram_data=None):
                     logging.error("Failed to parse diagram data.")
             
             return answer, fig
-            
     except Exception as e:
         st.error(f"Error: {e}")
         logging.error(f"Error generating response: {e}")
         return None, None
         
-def load_questions(file_path):
+def load_db(file_path):
     # Load the questions and diagrams from a CSV file
     df = pd.read_csv(file_path)
     return df
@@ -230,7 +225,7 @@ def main():
         st.session_state.chat_history = []
 
   # Load the vector store and questions data
-    questions_df = load_questions('data/sitemap_data.csv')
+    questions_df = load_db('data/sitemap_data.csv')
     questions = questions_df['questions'].tolist()
     categories = questions_df['uniqueCategories'].dropna().tolist()
  
