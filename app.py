@@ -229,13 +229,15 @@ def main():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
-
+  # Load the vector store and questions data
+    questions_df = load_questions('data/sitemap_data.csv')
+    questions = questions_df['questions'].tolist()
 
     
 
     
 
-    categories = df['category'].unique().tolist()
+    categories = questions_df['category'].unique().tolist()
  
     
     # Session state to store selected category and input text
@@ -269,9 +271,9 @@ def main():
     if 'user_question' not in st.session_state:
         st.session_state.user_question = ""
     
-    # Load the vector store and questions data
-    questions_df = load_questions('data/sitemap_data.csv')
-    questions = questions_df['questions'].tolist()
+    # # Load the vector store and questions data
+    # questions_df = load_questions('data/sitemap_data.csv')
+    # questions = questions_df['questions'].tolist()
 
     # Input field for custom questions
     user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
