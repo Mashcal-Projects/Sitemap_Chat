@@ -243,11 +243,11 @@ def main():
        # Display a dropdown for selecting a category if categories are loaded correctly
     if categories:
         st.session_state.selected_category = st.selectbox(
-            "Choose a category:", categories)
+            "שלום, אנא בחר נושא", categories)
     
         # Show input field immediately after a category is selected
         if st.session_state.selected_category:
-            st.write(f"Selected Category: {st.session_state.selected_category}")
+            # st.write(f"Selected Category: {st.session_state.selected_category}")
             
             # Display the input field now that a category has been selected
             st.session_state.input_value = st.text_input("Enter your question:")
