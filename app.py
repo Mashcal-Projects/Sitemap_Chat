@@ -262,26 +262,26 @@ def main():
     #     selected_suggestion = None
 
     # Dropdown for predefined questions
-    selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
+    # selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
 
-    # Add Reset Button for Conversation
-    if st.button("אפס שיחה"):
-        reset_conversation()
+    # # Add Reset Button for Conversation
+    # if st.button("אפס שיחה"):
+    #     reset_conversation()
         
         
-    # Process dropdown selection  
-    if selected_question != "בחר שאלה...":
-            row = questions_df[questions_df['questions'] == selected_question].iloc[0]
-            diagram_data = row["diagram"] if pd.notna(row["diagram"]) else None
+    # # Process dropdown selection  
+    # if selected_question != "בחר שאלה...":
+    #         row = questions_df[questions_df['questions'] == selected_question].iloc[0]
+    #         diagram_data = row["diagram"] if pd.notna(row["diagram"]) else None
 
-            tags = row["tags"] if pd.notna(row["tags"]) else ""
-            link = row["links"] if pd.notna(row["links"]) else None  
+    #         tags = row["tags"] if pd.notna(row["tags"]) else ""
+    #         link = row["links"] if pd.notna(row["links"]) else None  
 
-            if 'last_processed_dropdown' not in st.session_state or st.session_state['last_processed_dropdown'] != selected_question:
-                st.session_state['last_processed_dropdown'] = selected_question
-                response,diagram = user_input(selected_question,diagram_data,tags,link)
-                logging.info(f"response: {response}, diagram: {diagram}")
-                st.session_state.chat_history.append({'question': selected_question, 'answer': response,'diagram':diagram})
+    #         if 'last_processed_dropdown' not in st.session_state or st.session_state['last_processed_dropdown'] != selected_question:
+    #             st.session_state['last_processed_dropdown'] = selected_question
+    #             response,diagram = user_input(selected_question,diagram_data,tags,link)
+    #             logging.info(f"response: {response}, diagram: {diagram}")
+    #             st.session_state.chat_history.append({'question': selected_question, 'answer': response,'diagram':diagram})
             
     # Process input text
     if user_question and (user_question != st.session_state.get('last_processed', '')):
