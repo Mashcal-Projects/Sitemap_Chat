@@ -237,8 +237,8 @@ def main():
         st.session_state.input_value = ''
     
     # Create columns dynamically to fit as many as possible in a row
-    num_categories = len(categories)
-    cols = st.columns(num_categories)  # Create one column per category
+    # num_categories = len(categories)
+    # cols = st.columns(num_categories)  # Create one column per category
     
        # Display a dropdown for selecting a category if categories are loaded correctly
     if categories:
