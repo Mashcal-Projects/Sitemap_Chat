@@ -42,6 +42,13 @@ logging.basicConfig(
 # Test if logging works by adding an initial log message
 logging.info("App started, logging is set up.")
 
+def load_embeddings():
+    """Loads OpenAI embeddings and stores them in session_state for reuse."""
+    if 'embeddings' not in st.session_state:
+        st.session_state.embeddings = OpenAIEmbeddings()
+        logging.info("OpenAI embeddings initialized and stored in session_state.")
+
+
 def get_pdf_text(pdf_file_path):
     text = ""
     pdf_reader = PdfReader(pdf_file_path)
@@ -55,9 +62,14 @@ def get_text_chunks(text):
     return chunks
 
 def get_vector_store(text_chunks):
-    embeddings = OpenAIEmbeddings()
+     # Ensure that embeddings are loaded only once
+    if 'embeddings' not in st.session_state:
+        load_embeddings()
+    
+    embeddings = st.session_state.embeddings
     vector_store = FAISS.from_texts(text_chunks, embedding=embeddings)
     vector_store.save_local("faiss_index")
+    return vector_store
 
 # Function to reverse Hebrew text in each category
 def reverse_hebrew_text(categories):
@@ -75,7 +87,8 @@ def generate_response(prompt, diagram_data=None):
     try:
         with st.spinner("חושב..."):
             response = openai.ChatCompletion.create(
-                model="gpt-4o-mini",
+                # model="gpt-4o-mini",
+                model="gpt-3.5-turbo", 
                 messages=[
                     {"role": "system", "content": "אתה עוזר אדיב, אנא ענה בעברית."},
                     {"role": "user", "content": prompt}
@@ -129,11 +142,14 @@ def load_db(file_path):
 
 def user_input(user_question, diagram_data=None, tags=None, link=None):
     logging.info(f"user_question: {user_question}")
-    # Load the vector store and perform a similarity search
-    embeddings = OpenAIEmbeddings()
+    # Initialize embeddings only once
+    if 'embeddings' not in st.session_state:
+        load_embeddings()
+    
+    embeddings = st.session_state.embeddings
     new_db = FAISS.load_local("faiss_index", embeddings, allow_dangerous_deserialization=True)
     docs = new_db.similarity_search(user_question)
-    
+
     # Use the content of the documents to form a context
     context = " ".join([doc.page_content for doc in docs])
     # Include TAGS in the context if available to improve the response
@@ -343,11 +359,11 @@ def main():
             st.write(f"**תשובה:** {entry['answer']}")
             st.write("---")  # Separator line
     
-    # Load the vector store (initialization, not directly related to user interaction)
-    with st.spinner("טוען נתונים..."):
-        raw_text = get_pdf_text(PDF_FILE_PATH)
-        text_chunks = get_text_chunks(raw_text)
-        get_vector_store(text_chunks)
+    # # Load the vector store (initialization, not directly related to user interaction)
+    # with st.spinner("טוען נתונים..."):
+    #     raw_text = get_pdf_text(PDF_FILE_PATH)
+    #     text_chunks = get_text_chunks(raw_text)
+    #     get_vector_store(text_chunks)
    
 
 if __name__ == "__main__":
