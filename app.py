@@ -282,7 +282,7 @@ def main():
     # else:
     #     selected_suggestion = None
 
-    Dropdown for predefined questions
+    # Dropdown for predefined questions
     selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
 
     # Add Reset Button for Conversation
