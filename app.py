@@ -241,29 +241,29 @@ def main():
     # cols = st.columns(num_categories)  # Create one column per category
     
        # Display a dropdown for selecting a category if categories are loaded correctly
-    if categories:
-        st.session_state.selected_category = st.selectbox(
-            "שלום, אנא בחר נושא", categories)
+    # if categories:
+    #     st.session_state.selected_category = st.selectbox(
+    #         "שלום, אנא בחר נושא", categories)
     
-        # Show input field immediately after a category is selected
-        if st.session_state.selected_category:
-            # st.write(f"Selected Category: {st.session_state.selected_category}")
+    #     # Show input field immediately after a category is selected
+    #     if st.session_state.selected_category:
+    #         # st.write(f"Selected Category: {st.session_state.selected_category}")
             
-            # Display the input field now that a category has been selected
-            st.session_state.input_value = st.text_input("Enter your question:")
+    #         # Display the input field now that a category has been selected
+    #         st.session_state.input_value = st.text_input("Enter your question:")
     
-            if st.session_state.input_value:
-                st.write(f"Your question: {st.session_state.input_value}")
-    else:
-        st.error("No categories found.")
+    #         if st.session_state.input_value:
+    #             st.write(f"Your question: {st.session_state.input_value}")
+    # else:
+    #     st.error("No categories found.")
         
 
-    # # Initialize session state key if it does not exist
-    # if 'user_question' not in st.session_state:
-    #     st.session_state.user_question = ""
+    # Initialize session state key if it does not exist
+    if 'user_question' not in st.session_state:
+        st.session_state.user_question = ""
 
-    # # Input field for custom questions
-    # user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
+    # Input field for custom questions
+    user_question = st.text_input("הזינ/י שאלתך (חיפוש חופשי)", key="user_question")
  
     # # Filter options that **start with** the user's input
     # if user_question:
@@ -282,47 +282,47 @@ def main():
     # else:
     #     selected_suggestion = None
 
-    # Dropdown for predefined questions
-    # selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
+    Dropdown for predefined questions
+    selected_question = st.selectbox("אנא בחר/י מתבנית החיפוש", options=["בחר שאלה..."] + questions,key="selected_question")
 
-    # # Add Reset Button for Conversation
-    # if st.button("אפס שיחה"):
-    #     reset_conversation()
+    # Add Reset Button for Conversation
+    if st.button("אפס שיחה"):
+        reset_conversation()
         
         
-    # # Process dropdown selection  
-    # if selected_question != "בחר שאלה...":
-    #         row = questions_df[questions_df['questions'] == selected_question].iloc[0]
-    #         diagram_data = row["diagram"] if pd.notna(row["diagram"]) else None
+    # Process dropdown selection  
+    if selected_question != "בחר שאלה...":
+            row = questions_df[questions_df['questions'] == selected_question].iloc[0]
+            diagram_data = row["diagram"] if pd.notna(row["diagram"]) else None
 
-    #         tags = row["tags"] if pd.notna(row["tags"]) else ""
-    #         link = row["links"] if pd.notna(row["links"]) else None  
+            tags = row["tags"] if pd.notna(row["tags"]) else ""
+            link = row["links"] if pd.notna(row["links"]) else None  
 
-    #         if 'last_processed_dropdown' not in st.session_state or st.session_state['last_processed_dropdown'] != selected_question:
-    #             st.session_state['last_processed_dropdown'] = selected_question
-    #             response,diagram = user_input(selected_question,diagram_data,tags,link)
-    #             logging.info(f"response: {response}, diagram: {diagram}")
-    #             st.session_state.chat_history.append({'question': selected_question, 'answer': response,'diagram':diagram})
+            if 'last_processed_dropdown' not in st.session_state or st.session_state['last_processed_dropdown'] != selected_question:
+                st.session_state['last_processed_dropdown'] = selected_question
+                response,diagram = user_input(selected_question,diagram_data,tags,link)
+                logging.info(f"response: {response}, diagram: {diagram}")
+                st.session_state.chat_history.append({'question': selected_question, 'answer': response,'diagram':diagram})
             
     # Process input text
-    # if user_question and (user_question != st.session_state.get('last_processed', '')):
-    #     st.session_state['last_processed'] = user_question  # Track last processed question
-    #     closest_question = find_closest_question(user_question, questions_df)
+    if user_question and (user_question != st.session_state.get('last_processed', '')):
+        st.session_state['last_processed'] = user_question  # Track last processed question
+        closest_question = find_closest_question(user_question, questions_df)
         
-    #     logging.info(f"closest_question: {closest_question}")
+        logging.info(f"closest_question: {closest_question}")
         
-    #     if closest_question:
-    #         row = questions_df[questions_df['questions'] == closest_question].iloc[0]
-    #         tags = row["tags"] if pd.notna(row["tags"]) else ""
-    #         link = row["links"] if pd.notna(row["links"]) else None
-    #     else:
-    #         tags = ""
-    #         link = None
+        if closest_question:
+            row = questions_df[questions_df['questions'] == closest_question].iloc[0]
+            tags = row["tags"] if pd.notna(row["tags"]) else ""
+            link = row["links"] if pd.notna(row["links"]) else None
+        else:
+            tags = ""
+            link = None
 
         
-    #     response = user_input(user_question, tags=tags, link=link)
-    #     logging.info(f"response: {response}")
-    #     st.session_state.chat_history.append({'question': user_question, 'answer': response[0]})
+        response = user_input(user_question, tags=tags, link=link)
+        logging.info(f"response: {response}")
+        st.session_state.chat_history.append({'question': user_question, 'answer': response[0]})
 
         # Display the most recent interaction at the top
     if st.session_state.chat_history:
