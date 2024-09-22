@@ -239,8 +239,8 @@ def main():
      # Initialize chat history in session state
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
-
-  # Load the vector store and questions data
+    # Load the vector store once
+    load_vector_store()
     questions_df = load_db('data/sitemap_data.csv')
     questions = questions_df['questions'].tolist()
     categories = questions_df['uniqueCategories'].dropna().tolist()
