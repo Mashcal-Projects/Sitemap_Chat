@@ -48,6 +48,15 @@ def load_embeddings():
         st.session_state.embeddings = OpenAIEmbeddings()
         logging.info("OpenAI embeddings initialized and stored in session_state.")
 
+# Load the vector store once and store it in session_state if not already loaded
+def load_vector_store():
+    if 'vector_store' not in st.session_state:
+        with st.spinner("טוען נתונים..."):
+            raw_text = get_pdf_text(PDF_FILE_PATH)
+            text_chunks = get_text_chunks(raw_text)
+            st.session_state.vector_store = get_vector_store(text_chunks)
+            logging.info("Vector store loaded and stored in session_state.")
+
 
 def get_pdf_text(pdf_file_path):
     text = ""
